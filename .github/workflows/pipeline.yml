@@ -36,7 +36,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   Deploy:
-    needs: [Build,SonarCloud]
+    needs: [Build]
     runs-on: ubuntu-latest
 
     steps:
