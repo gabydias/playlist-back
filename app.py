@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request
+from flask_wtf.csrf import CSRFProtect
 from flask_cors import CORS
 from db import get_songs
 import os 
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+csrf = CSRFProtect(app) 
 
 @app.route('/')
 def songs():
