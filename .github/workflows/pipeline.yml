@@ -24,7 +24,7 @@ jobs:
         run:  pip install flask flask-wtf
 
       - name: Unit Test
-        run: python -m unittest -v test
+        run: cd test && python -m unittest -v test
 
   SonarCloud:
       name: SonarCloud
