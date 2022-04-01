@@ -6,7 +6,6 @@ import os
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*", "send_wildcard": "False"}}) # Compliant
-#cors = CORS(app, resources={r"/*": {"origins": "*"}})
 csrf = CSRFProtect(app) 
 
 @app.route('/')
