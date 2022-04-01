@@ -21,7 +21,16 @@ jobs:
           python-version: '3.10'
 
       - name: Install Requirements
-        run:  pip install flask flask-wtf
+        run:  pip install -r test/requirements_test.txt 
+
+      - name: MySQL Docker
+        run: |-
+           docker run --name mysql \ 
+             -e MYSQL_ROOT_PASSWORD=secret \
+             -e MYSQL_USER=playuser \
+             -e MYSQL_PASSWORD=123456 \
+             -e MYSQL_DATABASE=playlist \
+             -p 3306:3306 -d mysql:8.0
 
       - name: Unit Test
         run: cd test && python -m unittest -v test
