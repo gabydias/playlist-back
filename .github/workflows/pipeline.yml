@@ -32,7 +32,7 @@ jobs:
             ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
             PORT: 8080
           run: | 
-            docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/backend:latest .
+            envsubst < Dockerfile | docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/backend:latest .
             docker push ${{ secrets.ARTIFACT_REGISTRY }}/backend:latest
 
   Deploy:
