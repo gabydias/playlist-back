@@ -49,7 +49,7 @@ jobs:
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
-   - name: Deploy to Cloud Run
+      - name: Deploy to Cloud Run
         id: cloudrun
         uses: google-github-actions/deploy-cloudrun@main
         with:
