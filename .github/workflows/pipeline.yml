@@ -56,7 +56,7 @@ jobs:
           service: 'backend'
           image: ${{ secrets.ARTIFACT_REGISTRY }}/backend:latest
           env_vars: "CLOUD_SQL_CONNECTION_NAME=${{ secrets.CLOUD_SQL_CONNECTION_NAME }},CLOUD_SQL_DATABASE_NAME=${{ secrets.CLOUD_SQL_DATABASE_NAME }},CLOUD_SQL_PASSWORD=${{ secrets.CLOUD_SQL_PASSWORD }},CLOUD_SQL_USERNAME=${{ secrets.CLOUD_SQL_USERNAME }}"
-          flags: "--allow-unauthenticated --add-cloudsql-instances '${{ env.CLOUD_SQL_CONNECTION_NAME }}'"
+          flags: "--allow-unauthenticated --add-cloudsql-instances ${{ env.CLOUD_SQL_CONNECTION_NAME }}"
 
       - name: Prod Test
         run: 'curl "${{ steps.cloudrun.outputs.url }}"'
