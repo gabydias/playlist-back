@@ -1,15 +1,14 @@
-from flask import Flask
-from flask_wtf.csrf import CSRFProtect
-import os
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from db import get_songs
+import os 
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-csrf = CSRFProtect(app) 
-
-@app.route("/")
-def pagina_inicial():
-    return "Hello World - GabyDias - FIAP"
+@app.route('/')
+def songs():
+    return get_songs()    
 
 if __name__ == '__main__':
-    port = os.getenv('PORT')
-    app.run('0.0.0.0', port=port)
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
