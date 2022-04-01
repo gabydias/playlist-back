@@ -30,7 +30,6 @@ jobs:
         - name: Build Image & Push
           env: 
             ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
-            PORT: 8080
           run: | 
             envsubst < Dockerfile | docker build -t ${{ secrets.ARTIFACT_REGISTRY }}/backend:latest .
             docker push ${{ secrets.ARTIFACT_REGISTRY }}/backend:latest
@@ -43,20 +42,21 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
 
-      - name: Auth GCP AppEngine
+      - name: Auth GCP
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
-      - name: Deploy to App Engine
-        id: appengine
-        env: 
-          ARTIFACT_REGISTRY: ${{ secrets.ARTIFACT_REGISTRY }}
-        uses: 'google-github-actions/deploy-appengine@v0'
+   - name: Deploy to Cloud Run
+        id: cloudrun
+        uses: google-github-actions/deploy-cloudrun@main
         with:
-          image_url: ${{ secrets.ARTIFACT_REGISTRY }}/backend:latest
+          service: 'backend'
+          image: ${{ secrets.ARTIFACT_REGISTRY }}/backend:latest
+          env_vars: "CLOUD_SQL_CONNECTION_NAME=${{ secrets.CLOUD_SQL_CONNECTION_NAME }},CLOUD_SQL_DATABASE_NAME=${{ secrets.CLOUD_SQL_DATABASE_NAME }},CLOUD_SQL_PASSWORD=${{ secrets.CLOUD_SQL_PASSWORD }},CLOUD_SQL_USERNAME=${{ secrets.CLOUD_SQL_USERNAME }}"
+          flags: "--allow-unauthenticated --add-cloudsql-instances '${{ env.CLOUD_SQL_CONNECTION_NAME }}'"
 
       - name: Prod Test
-        run: 'curl "${{ steps.appengine.outputs.url }}"'
+        run: 'curl "${{ steps.cloudrun.outputs.url }}"'
