@@ -39,15 +39,15 @@ def test_created_table(cursor, initialize):
   result = cursor.fetchall()
   assert len(result) == 0
 
-def setUp(self):
-  # cria uma instância do unittest, precisa do nome "setUp"
-  self.app = app.test_client()
+#def setUp(self):
+#  # cria uma instância do unittest, precisa do nome "setUp"
+#  self.app = app.test_client()
 
-  # envia uma requisicao GET para a URL
-  self.result = self.app.get('/')
+#  # envia uma requisicao GET para a URL
+#  self.result = self.app.get('/')
 
-  # compara o status da requisicao (precisa ser igual a 200)
-  self.assertEqual(self.result.status_code, 200)
+#  # compara o status da requisicao (precisa ser igual a 200)
+#  self.assertEqual(self.result.status_code, 200)
 
 @pytest.fixture
 def delete_table(cursor):
